@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
+import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import router from '@/router'
 
 // create an axios instance
 const service = axios.create({
@@ -19,7 +19,7 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = `Bearer ${store.getters.token}`
     }
     return config
   },
@@ -48,6 +48,7 @@ service.interceptors.response.use(
     if (success) {
       return data
     } else {
+      router.push('/login')
       return Promise.reject(new Error('请求数据失败!'))
     }
   },
