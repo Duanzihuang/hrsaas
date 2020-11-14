@@ -43,12 +43,12 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const { success, data } = response.data
+    const { success, data, message } = response.data
 
     if (success) {
       return data
     } else {
-      router.push('/login')
+      Message.error(message)
       return Promise.reject(new Error('请求数据失败!'))
     }
   },

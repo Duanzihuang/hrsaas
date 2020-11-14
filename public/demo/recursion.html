@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const list = [
+        {
+          id: 1,
+          pid: 0,
+          name: "董事会"
+        },
+        {
+          id: 2,
+          pid: 1,
+          name: "广州分公司"
+        },
+        {
+          id: 3,
+          pid: 1,
+          name: "北京分公司"
+        },
+        {
+          id: 4,
+          pid: 3,
+          name: "顺义校区"
+        }
+      ];
+
+      const div = document.getElementById("app");
+
+      function transListToHtml(list, rootValue) {
+        let html = "<ul>";
+        list.forEach(item => {
+          if (item.pid === rootValue) {
+            const childHtml = transListToHtml(list, item.id);
+            html += `<li>${item.name}${childHtml}</li>`;
+          }
+        });
+        return html + "</ul>";
+      }
+
+      div.innerHTML = transListToHtml(list, 0);
+    </script>
+  </body>
+</html>
