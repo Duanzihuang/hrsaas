@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard-container">
+  <div class="dashboard-container" v-loading="loading">
     <div class="app-container">
       <!-- 组织结构内容-头部   -->
       <el-card class="tree-card">
@@ -37,7 +37,8 @@ export default {
   data () {
     return {
       company: {}, // 公司
-      depts: [] // 部门列表
+      depts: [], // 部门列表
+      loading: false // 是否正在加载
     }
   },
   created () {
@@ -45,12 +46,15 @@ export default {
   },
   methods: {
     async getDepartmentsData () {
+      this.loading = true
+
       const res = await getDepartments()
       this.company = {
         name: res.companyName,
         manager: '负责人',
         id: ''
       }
+      this.loading = false
       this.depts = tranListToTreeData(res.depts, '')
     },
     // 新增部门
