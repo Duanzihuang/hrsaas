@@ -46,6 +46,13 @@
             </el-row>
           </el-tab-pane>
           <el-tab-pane label="公司信息" name="second">
+            <el-alert
+              title="对公司名称、公司地址、营业执照、公司地区的更新，将使得公司资料被重新审核，请谨慎修改"
+              type="info"
+              :show-icon="true"
+              :closable="false"
+            >
+            </el-alert>
             <el-form
               style="margin-top:20px;"
               label-width="180px"
