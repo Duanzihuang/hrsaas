@@ -13,7 +13,9 @@
           <el-button type="danger" size="small" @click="exportData"
             >excel导出</el-button
           >
-          <el-button type="primary" size="small">新增员工</el-button>
+          <el-button type="primary" size="small" @click="showDialog = true"
+            >新增员工</el-button
+          >
         </div>
       </page-tools>
       <el-table :data="employees" style="width: 100%">
@@ -47,13 +49,15 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" sortable width="300px">
-          <template>
-            <el-button type="text">查看</el-button>
+          <template slot-scope="{ row }">
+            <el-button @click="$router.push(`/detail/${row.id}`)" type="text"
+              >查看</el-button
+            >
             <el-button type="text">转正</el-button>
             <el-button type="text">调岗</el-button>
             <el-button type="text">离职</el-button>
             <el-button type="text">角色</el-button>
-            <el-button type="text">删除</el-button>
+            <el-button @click="deleteUser(row.id)" type="text">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,15 +71,21 @@
         ></el-pagination>
       </el-row>
     </div>
+    <!-- 放置新增组件 -->
+    <add-employee :show-dialog.sync="showDialog" />
   </div>
 </template>
 
 <script>
-import { getEmployeeList } from '@/api/employees'
+import { getEmployeeList, delEmployee } from '@/api/employees'
 import { formatDate } from '@/filters'
 import EmployeeEnum from '@/api/constant/employees'
+import AddDemployee from './components/add-employee'
 export default {
   name: 'Employees',
+  components: {
+    'add-employee': AddDemployee
+  },
   data () {
     return {
       query: {
@@ -83,7 +93,8 @@ export default {
         size: 10
       },
       employees: [],
-      total: 0
+      total: 0,
+      showDialog: false //是否显示新增组件
     }
   },
   created () {
@@ -95,6 +106,14 @@ export default {
 
       this.employees = res.rows
       this.total = res.total
+    },
+    async deleteUser (id) {
+      try {
+        await this.$confirm('确定删除该员工吗？')
+        await delEmployee(id)
+        this.getEmployeeListData()
+        this.$message.success('删除员工成功')
+      } catch (error) {}
     },
     // 格式化聘用形式
     formatEmployment (row, col, cellValue) {
