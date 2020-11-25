@@ -58,7 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
-            <!-- <image-upload ref="myStaffPhoto" /> -->
+            <image-upload ref="staffPhoto" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -92,7 +92,8 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
-          <!-- <image-upload ref="staffPhoto" /> -->
+          <!-- ref不要重名 -->
+          <image-upload ref="myStaffPhoto" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -397,6 +398,7 @@ import {
 } from '@/api/employees'
 import { getUserDetailById } from '@/api/user'
 export default {
+  name: 'UserInfo',
   data () {
     return {
       userId: this.$route.params.id,
@@ -474,16 +476,51 @@ export default {
   methods: {
     async getPersonalDetail () {
       this.formData = await getPersonalDetail(this.userId) // 获取员工数据
+      if (this.formData.staffPhoto) {
+        this.$refs.myStaffPhoto.fileList = [
+          { url: this.formData.staffPhoto, upload: true }
+        ]
+      }
     },
     async getUserDetailById () {
       this.userInfo = await getUserDetailById(this.userId)
+
+      if (this.userInfo.staffPhoto) {
+        // 这里我们赋值，同时需要给赋值的地址一个标记 upload: true
+        this.$refs.staffPhoto.fileList = [
+          { url: this.userInfo.staffPhoto, upload: true }
+        ]
+      }
     },
     async saveUser () {
-      await saveUserDetailById(this.userInfo)
-      this.$message.success('保存成功')
+      // 获取上传的员工头像
+      const fileList = this.$refs.staffPhoto.fileList
+      if (fileList.some(item => !item.upload)) {
+        // 如果此时去找 upload为false的图片，找到了说明有图片还没有上传完成
+        this.$message.warning('您当前还有图片没有上传完成！')
+
+        return
+      }
+      await saveUserDetailById({
+        ...this.userInfo,
+        staffPhoto: fileList && fileList.length ? fileList[0].url : ''
+      })
+      this.$message.success('保存基本信息成功')
     },
     async savePersonal () {
-      await updatePersonal({ ...this.formData, id: this.userId })
+      // 获取上传的员工头像
+      const fileList = this.$refs.myStaffPhoto.fileList
+      if (fileList.some(item => !item.upload)) {
+        // 如果此时去找 upload为false的图片，找到了说明有图片还没有上传完成
+        this.$message.warning('您当前还有图片没有上传完成！')
+
+        return
+      }
+      await updatePersonal({
+        ...this.formData,
+        id: this.userId,
+        staffPhoto: fileList && fileList.length ? fileList[0].url : ''
+      })
       this.$message.success('保存成功')
     }
   }

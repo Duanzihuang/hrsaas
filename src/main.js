@@ -51,6 +51,10 @@ Vue.config.productionTip = false
 import Component from '@/components'
 Vue.use(Component)
 
+// 打印插件
+import Print from 'vue-print-nb'
+Vue.use(Print)
+
 new Vue({
   el: '#app',
   router,
