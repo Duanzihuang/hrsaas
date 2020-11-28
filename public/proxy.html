@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const user = {
+        age: 50
+      }
+
+      const validator = {
+        set: function (target, prop, value) {
+          if (!Number.isInteger(value)) {
+            throw new Error('不是数值')
+          }
+          if (value > 200) {
+            throw new Error('年龄过大')
+          }
+
+          target[prop] = value
+        }
+      }
+
+      const person = new Proxy(user, validator)
+      //   person.age = "111";
+      //   person.age = 220;
+      person.age = 100
+      console.log(person.age)
+    </script>
+  </body>
+</html>

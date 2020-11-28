@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{message}}</h1>
+      <ul>
+        <li>{{message}}</li>
+        <li>{{foo}}</li>
+      </ul>
+      <div>message: <input v-model="message" type="text" /></div>
+      <button v-on:click="changeMessage">change</button><br />
+      <input v-on:focus="changeMessage" v-on:blur="changeFoo" type="text" />
+    </div>
+  </body>
+  <script src="./myvue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: 'Hello',
+        foo: 'bar'
+      },
+      methods: {
+        changeMessage () {
+          this.message = '你好'
+        },
+        changeFoo () {
+          this.foo = '世界'
+        }
+      }
+    })
+
+    // console.log('获取值', app.message)
+  </script>
+</html>

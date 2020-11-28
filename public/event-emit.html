@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function EventEmitter () {
+        // 用户保存，事件类型及其回调函数
+        // {a: [回调函数1,回调函数2],b:[回调函数1]}
+        this.subs = {}
+      }
+
+      EventEmitter.prototype.$on = function (eventType, callback) {
+        this.subs[eventType] = this.subs[eventType] || []
+        this.subs[eventType].push(callback)
+      }
+
+      //...args是剩余参数
+      EventEmitter.prototype.$emit = function (eventType, ...args) {
+        const subs = this.subs[eventType]
+        if (subs) {
+          subs.forEach(callback => {
+            // ...args展开运算符
+            callback(...args)
+          })
+        }
+      }
+
+      const e = new EventEmitter()
+      e.$on('a', function (val1, val2) {
+        console.log('a1', val1, val2)
+      })
+
+      e.$on('a', function (val1, val2) {
+        console.log('a2', val1, val2)
+      })
+
+      e.$on('b', function (val) {
+        console.log('b1---', val)
+      })
+
+      e.$emit('a', 111, 222)
+      e.$emit('b', 333)
+    </script>
+  </body>
+</html>
