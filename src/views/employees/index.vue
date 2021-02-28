@@ -68,7 +68,7 @@
             <el-button type="text">转正</el-button>
             <el-button type="text">调岗</el-button>
             <el-button type="text">离职</el-button>
-            <el-button type="text">角色</el-button>
+            <el-button @click="editRole(row.id)" type="text">角色</el-button>
             <el-button @click="deleteUser(row.id)" type="text">删除</el-button>
           </template>
         </el-table-column>
@@ -90,6 +90,12 @@
         <canvas ref="myCanvas" />
       </el-row>
     </el-dialog>
+    <!-- 分配角色弹框 -->
+    <assign-role
+      ref="roleDialogRef"
+      :userId="userId"
+      :showRoleDialog.sync="showRoleDialog"
+    />
   </div>
 </template>
 
@@ -99,10 +105,12 @@ import { formatDate } from '@/filters'
 import EmployeeEnum from '@/api/constant/employees'
 import AddDemployee from './components/add-employee'
 import QrCode from 'qrcode'
+import AssignRole from './components/assign-role'
 export default {
   name: 'Employees',
   components: {
-    'add-employee': AddDemployee
+    'add-employee': AddDemployee,
+    AssignRole
   },
   data () {
     return {
@@ -113,7 +121,9 @@ export default {
       employees: [],
       total: 0,
       showDialog: false, // 是否显示新增组件
-      showQrCodeDialog: false // 是否显示二维码弹框
+      showQrCodeDialog: false, // 是否显示二维码弹框
+      showRoleDialog: false,
+      userId: '' // 要赋值角色的用户
     }
   },
   created () {
@@ -221,6 +231,13 @@ export default {
       } else {
         this.$message.warning('该用户还未上传头像')
       }
+    },
+    async editRole (id) {
+      this.userId = id
+
+      await this.$refs.roleDialogRef.getUserRoleIdsById(id)
+
+      this.showRoleDialog = true
     }
   }
 }
