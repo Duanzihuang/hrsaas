@@ -45,6 +45,8 @@ const actions = {
 
     // 在仓库中存储用户信息
     commit('setUserInfo', { ...res, ...res2 })
+
+    return res
   },
   // 退出
   async asyncLogout ({ commit }) {
@@ -52,6 +54,8 @@ const actions = {
     commit('removeToken')
     // 移除userInfo
     commit('removeUserInfo')
+    // 触发 permisson/resetRoutes
+    commit('permisson/resetRoutes', [], { root: true })
   }
 }
 

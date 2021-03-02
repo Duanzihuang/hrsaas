@@ -24,7 +24,15 @@ router.beforeEach(async (to, from, next) => {
     } else {
       if (!store.getters.userId) {
         // 为什么要写await 因为我们想获取完资料再去放行
-        await store.dispatch('user/asyncGetUserInfo')
+        const res = await store.dispatch('user/asyncGetUserInfo')
+
+        const routes = await store.dispatch(
+          'permisson/filterMenus',
+          res.roles.menus
+        )
+
+        // 设置动态路由
+        router.addRoutes(routes)
       }
 
       next()

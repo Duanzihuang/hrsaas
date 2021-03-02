@@ -19,7 +19,9 @@
               </el-table-column>
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button type="text">权限分配</el-button>
+                  <el-button type="text" @click="assign(scope.row.id)"
+                    >权限分配</el-button
+                  >
                   <el-button type="text" @click="editRole(scope.row.id)"
                     >编辑</el-button
                   >
@@ -124,6 +126,29 @@
           <el-button type="primary" @click="submit">确 定</el-button>
         </div>
       </el-dialog>
+      <!-- 给角色分配权限弹出框 -->
+      <el-dialog
+        title="分配权限"
+        :visible.sync="showPermDialog"
+        center
+        @close="onClosePermDialog"
+      >
+        <el-tree
+          ref="permTreeRef"
+          :data="treePermList"
+          show-checkbox
+          node-key="id"
+          check-strictly
+          default-expand-all
+          :default-checked-keys="permIds"
+          :props="defaultProps"
+        >
+        </el-tree>
+        <div slot="footer">
+          <el-button @click="onClosePermDialog">取 消</el-button>
+          <el-button type="primary" @click="onAssignPerm">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -135,8 +160,11 @@ import {
   addRole,
   updateRole,
   getRoleById,
-  deleteRole
+  deleteRole,
+  assignPerm
 } from '@/api/setting'
+import { getPermissionList } from '@/api/permisson'
+import { tranListToTreeData } from '@/utils'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Setting',
@@ -156,6 +184,13 @@ export default {
       form: {
         name: '',
         description: ''
+      },
+      showPermDialog: false, // 是否显示分配权限对话框
+      treePermList: [], // 权限列表树形菜单
+      permIds: [], // 该角色拥有的权限id数组
+      roleId: null, // 角色id
+      defaultProps: {
+        label: 'name'
       },
       rules: {
         name: [
@@ -257,6 +292,33 @@ export default {
       }
       this.$refs.formRef.clearValidate() // 移除校验
       this.$refs.formRef.resetFields() // 把字段值设置为空
+    },
+    // 打开权限分配
+    async assign (id) {
+      this.roleId = id
+      this.treePermList = tranListToTreeData(await getPermissionList(), '0')
+
+      const { permIds } = await getRoleById(id)
+      this.permIds = permIds
+
+      this.showPermDialog = true
+    },
+    // 分配权限
+    async onAssignPerm () {
+      const checkedIds = this.$refs.permTreeRef.getCheckedKeys()
+
+      await assignPerm({
+        id: this.roleId,
+        permIds: checkedIds
+      })
+
+      this.$message.success('授权成功~')
+      this.showPermDialog = false
+    },
+    // 关闭授权框
+    onClosePermDialog () {
+      this.permIds = []
+      this.showPermDialog = false
     }
   }
 }

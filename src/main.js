@@ -14,6 +14,10 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import checkPermission from '@/mixin/checkPermission'
+
+// 全局混入mixin
+Vue.mixin(checkPermission)
 
 // 全局注册指令
 import * as directives from '@/directives'

@@ -80,7 +80,7 @@ export const constantRoutes = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const asyncRoutes = [
+export const asyncRoutes = [
   approvalsRouter,
   departmentsRouter,
   employeesRouter,
@@ -96,7 +96,8 @@ const createRouter = () =>
     // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     // routes: constantRoutes
-    routes: [...constantRoutes, ...asyncRoutes]
+    // routes: [...constantRoutes, ...asyncRoutes]
+    routes: [...constantRoutes]
   })
 
 const router = createRouter()

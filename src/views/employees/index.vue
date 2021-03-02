@@ -13,7 +13,11 @@
           <el-button type="danger" size="small" @click="exportData"
             >excel导出</el-button
           >
-          <el-button type="primary" size="small" @click="showDialog = true"
+          <el-button
+            v-show="checkPermission('POINT-USER-ADD')"
+            type="primary"
+            size="small"
+            @click="showDialog = true"
             >新增员工</el-button
           >
         </div>
@@ -69,7 +73,12 @@
             <el-button type="text">调岗</el-button>
             <el-button type="text">离职</el-button>
             <el-button @click="editRole(row.id)" type="text">角色</el-button>
-            <el-button @click="deleteUser(row.id)" type="text">删除</el-button>
+            <el-button
+              v-show="checkPermission('point-user-delete')"
+              @click="deleteUser(row.id)"
+              type="text"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -138,7 +147,11 @@ export default {
     },
     async deleteUser (id) {
       try {
-        await this.$confirm('确定删除该员工吗？')
+        await this.$confirm('确定删除该员工吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
         await delEmployee(id)
         this.getEmployeeListData()
         this.$message.success('删除员工成功')

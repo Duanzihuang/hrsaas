@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">
-      name: {{ name }}
+      name: {{ username }}
       <image-upload />
     </div>
   </div>
@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
   computed: {
-    ...mapGetters(['name'])
+    ...mapGetters(['username'])
   }
 }
 </script>
