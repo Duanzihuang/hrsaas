@@ -32,10 +32,22 @@ router.beforeEach(async (to, from, next) => {
         )
 
         // 设置动态路由
-        router.addRoutes(routes)
-      }
+        router.addRoutes([
+          ...routes,
+          {
+            path: '*',
+            redirect: '/404',
+            hidden: true
+          }
+        ])
 
-      next()
+        // 加await的意思是 强制等待获取完用户资料之后 才去放行  就能保证 用户进到页面时候 有资料
+        // 添加完路由之后 不能用next()  要用next(to.path) 否则地址不能生效 这算是一个已知 的小缺陷
+        // 执行完addRoutes 必须执行next(to.path) 不能执行 next() 这是一个已知的问题缺陷
+        next(to.path) // 解决直接执行next()时的异常，解决强制刷新浏览器页面不渲染内容的bug
+      } else {
+        next()
+      }
     }
   } else {
     /* has no token*/

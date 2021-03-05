@@ -244,11 +244,12 @@ export default {
     },
     async delRole (id) {
       try {
-        await this.$confirm('确定删除该角色吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        })
+        // await this.$confirm('确定删除该角色吗?', '提示', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   type: 'warning'
+        // })
+        await this.$confirm('确定删除该角色吗?')
 
         await deleteRole(id)
 
