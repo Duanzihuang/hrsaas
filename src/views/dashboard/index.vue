@@ -37,21 +37,126 @@
           <work-calendar />
         </el-card>
         <!-- 公告 -->
+        <el-card class="box-card">
+          <div class="advContent">
+            <div class="title">公告</div>
+            <div class="contentItem">
+              <ul class="noticeList">
+                <li>
+                  <div class="item">
+                    <img src="@/assets/common/img.jpeg" alt="" />
+                    <div>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第1期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
+                      <p>2018-07-21 15:21:38</p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="item">
+                    <img src="@/assets/common/img.jpeg" alt="" />
+                    <div>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第2期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
+                      <p>2018-07-21 15:21:38</p>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="item">
+                    <img src="@/assets/common/img.jpeg" alt="" />
+                    <div>
+                      <p>
+                        <span class="col">朱继柳</span> 发布了
+                        第3期“传智大讲堂”互动讨论获奖名单公布
+                      </p>
+                      <p>2018-07-21 15:21:38</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+      <!-- 右侧内容 -->
+      <el-col :span="11">
+        <el-card class="box-card">
+          <div class="header headTit">
+            <span>流程申请</span>
+          </div>
+          <div class="sideNav">
+            <el-button class="sideBtn">加班离职</el-button>
+            <el-button class="sideBtn">请假调休</el-button>
+            <el-button class="sideBtn" @click="$router.push('/users/approvals')"
+              >审批列表</el-button
+            >
+            <el-button class="sideBtn" @click="$router.push('/users/info')"
+              >我的信息</el-button
+            >
+          </div>
+        </el-card>
+
+        <!-- 绩效指数 -->
+        <el-card class="box-card">
+          <div slot="header" class="header">
+            <span>绩效指数</span>
+          </div>
+          <!-- 放置雷达图 -->
+          <radar />
+        </el-card>
+        <!-- 帮助连接 -->
+        <el-card class="box-card">
+          <div class="header headTit">
+            <span>帮助链接</span>
+          </div>
+          <div class="sideLink">
+            <el-row>
+              <el-col :span="8">
+                <a href="#">
+                  <span class="icon iconGuide" />
+                  <p>入门指南</p>
+                </a>
+              </el-col>
+              <el-col :span="8">
+                <a href="#">
+                  <span class="icon iconHelp" />
+                  <p>在线帮助手册</p>
+                </a>
+              </el-col>
+              <el-col :span="8">
+                <a href="#">
+                  <span class="icon iconTechnology" />
+                  <p>联系技术支持</p>
+                </a>
+              </el-col>
+            </el-row>
+          </div>
+        </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, createNamespacedHelpers } from 'vuex'
 import WorkCalendar from './components/work-calendar'
+import Radar from './components/radar'
+const { mapState } = createNamespacedHelpers('user')
 export default {
   name: 'Dashboard',
   components: {
-    WorkCalendar
+    WorkCalendar,
+    Radar
   },
   computed: {
-    ...mapGetters(['username', 'userInfo'])
+    // ...mapGetters(['username', 'userInfo'])
+    ...mapGetters(['username']),
+    ...mapState(['userInfo'])
   }
 }
 </script>

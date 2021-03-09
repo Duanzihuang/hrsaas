@@ -12,6 +12,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import userRouter from './modules/user'
 
 /* Layout */
 import Layout from '@/layout'
@@ -60,7 +61,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        name: 'Dashboard',
+        name: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'dashboard', name: 'dashboard' }
       }
@@ -75,7 +76,8 @@ export const constantRoutes = [
         component: () => import('@/views/import/index')
       }
     ]
-  }
+  },
+  userRouter
   // 404 page must be placed at the end !!!
   // { path: '*', redirect: '/404', hidden: true }
 ]

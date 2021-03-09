@@ -50,6 +50,7 @@ Object.keys(filters).forEach(key => {
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
+// 设置element为当前的语言
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })

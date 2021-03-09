@@ -54,7 +54,7 @@ export default {
     salarysHistorical: 'Salarys-Historical',
     salarysMonthStatement: 'Salarys-Month',
     // 社保
-    'social_securitys': 'Social',
+    social_securitys: 'Social',
     socialSecuritys: 'Social-Securitys',
     socialDetail: 'Social-Detail',
     socialHistorical: 'Social-Historical',
@@ -72,8 +72,8 @@ export default {
     // 企业
     'saas-clients': 'Saas-Clients',
     'saas-clients-details': 'Saas-Details',
-    'permissions': 'permissions' // 权限管理
-
+    permissions: 'permissions', // 权限管理
+    myInfo: 'myInfo'
   },
   navbar: {
     search: 'search',
@@ -100,14 +100,14 @@ export default {
     password: 'Password',
     any: 'any',
     thirdparty: 'Third',
-    thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
+    thirdpartyTips:
+      'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
   tagsView: {
     close: 'Close',
     closeOthers: 'Close Others',
     closeAll: 'Close All',
     refresh: 'refresh'
-
   },
   table: {
     title: 'Title',
@@ -144,6 +144,5 @@ export default {
     know: 'I Know',
     return: 'return',
     view: 'view'
-
   }
 }

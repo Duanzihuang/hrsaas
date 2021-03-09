@@ -27,7 +27,7 @@ router.beforeEach(async (to, from, next) => {
         const res = await store.dispatch('user/asyncGetUserInfo')
 
         const routes = await store.dispatch(
-          'permisson/filterMenus',
+          'permission/filterMenus',
           res.roles.menus
         )
 

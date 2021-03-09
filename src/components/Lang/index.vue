@@ -20,11 +20,13 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
 export default {
   name: 'Lang',
   methods: {
     handleCommand (val) {
-      this.$i18n.locale = val
+      Cookie.set('language', val) // 切换多语言
+      this.$i18n.locale = val // 设置给本地的i18n插件
     }
   }
 }

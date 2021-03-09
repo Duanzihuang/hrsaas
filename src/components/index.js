@@ -4,6 +4,7 @@ import ImageUpload from './ImageUpload'
 import ScreenFull from './ScreenFull'
 import ThemePicker from './ThemePicker'
 import Lang from './Lang'
+import TagsView from './TagsView'
 
 export default {
   install (Vue) {
@@ -13,5 +14,6 @@ export default {
     Vue.component(ScreenFull.name, ScreenFull)
     Vue.component('ThemePicker', ThemePicker)
     Vue.component(Lang.name, Lang)
+    Vue.component('TagsView', TagsView)
   }
 }

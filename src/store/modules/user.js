@@ -54,8 +54,8 @@ const actions = {
     commit('removeToken')
     // 移除userInfo
     commit('removeUserInfo')
-    // 触发 permisson/resetRoutes
-    commit('permisson/resetRoutes', [], { root: true })
+    // 触发 permission/resetRoutes
+    commit('permission/resetRoutes', [], { root: true })
   }
 }
 
